@@ -20,6 +20,27 @@ class UpdateUserRandomCommand extends Command
 
     public function handle()
     {
+        $faker = Faker::create();
+        $changes = [];
+
+        $timezones = [
+            'Europe/Amsterdam',
+            'America/Los_Angeles',
+            'CET',
+            'GMT+1',
+            'America/New_York',
+            'Europe/London',
+            'Asia/Tokyo',
+            'Australia/Sydney'
+        ];
+        
+        for ($i = 1; $i <= 2500; $i++) {
+            $changes[] = [
+                'email' => $faker->unique()->safeEmail,
+                'name' => $faker->name,
+                'time_zone' => $timezones[array_rand($timezones)],
+            ];
+        }
 
         $this->userUpdateService->updateUsers($changes);
     }
