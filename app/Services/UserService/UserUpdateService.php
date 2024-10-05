@@ -1,16 +1,19 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\UserService;
+use App\Models\User;
 
 class UserUpdateService
 {
     public function updateUsers($changes)
     {
-        // Create batches
-        $batches = $this->createBatches($changes);
+        \Log::info('Running UpdateUsersCommand start ' . now());
 
-        // Send requests (logging instead of calling API)
+        $batches = $this->createBatches($changes);
+        \Log::info('Running UpdateUsersCommand batches: ' . json_encode($batches));
+
         $this->sendBatchRequests($batches);
+        \Log::info('Running UpdateUsersCommand end ' . now());
     }
 
     protected function createBatches($changes)
@@ -26,15 +29,13 @@ class UserUpdateService
     {
         foreach ($batches as $batch) {
             foreach ($batch['subscribers'] as $subscriber) {
-                // Log the update message
                 $email = $subscriber['email'];
-                $firstName = $subscriber['name'] ?? 'N/A';
-                $timeZone = $subscriber['time_zone'] ?? 'N/A';
-                echo "[$email] firstname: $firstName, timezone: '$timeZone'\n";
+                $firstName = $subscriber['firstname'] ?? 'N/A';
+                $lastName = $subscriber['lastname'] ?? 'N/A';
+                $timeZone = $subscriber['timezone'] ?? 'N/A';
+                // User::where('email', $subscriber['email'])->update($subscriber);
+                echo "[$email] firstname: $firstName, lastname: $lastName, timezone: '$timeZone'\n";
             }
-
-            // Sleep or wait for the appropriate interval to stay within limits if needed
-            sleep(72); // Assuming 50 requests can be made in 3600 seconds
         }
     }
 }
