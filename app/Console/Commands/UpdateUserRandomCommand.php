@@ -37,8 +37,9 @@ class UpdateUserRandomCommand extends Command
         for ($i = 1; $i <= 2500; $i++) {
             $changes[] = [
                 'email' => $faker->unique()->safeEmail,
-                'name' => $faker->name,
-                'time_zone' => $timezones[array_rand($timezones)],
+                'firstname' => $faker->name,
+                'lastname' => $faker->name,
+                'timezone' => $timezones[array_rand($timezones)],
             ];
         }
 

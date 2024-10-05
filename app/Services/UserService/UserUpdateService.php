@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services\UserService;
+use App\Models\User;
 
 class UserUpdateService
 {
@@ -29,9 +30,11 @@ class UserUpdateService
         foreach ($batches as $batch) {
             foreach ($batch['subscribers'] as $subscriber) {
                 $email = $subscriber['email'];
-                $firstName = $subscriber['name'] ?? 'N/A';
-                $timeZone = $subscriber['time_zone'] ?? 'N/A';
-                echo "[$email] firstname: $firstName, timezone: '$timeZone'\n";
+                $firstName = $subscriber['firstname'] ?? 'N/A';
+                $lastName = $subscriber['lastname'] ?? 'N/A';
+                $timeZone = $subscriber['timezone'] ?? 'N/A';
+                // User::where('email', $subscriber['email'])->update($subscriber);
+                echo "[$email] firstname: $firstName, lastname: $lastName, timezone: '$timeZone'\n";
             }
         }
     }
